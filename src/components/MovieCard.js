@@ -5,6 +5,7 @@ import {
     CardBody
  } from 'reactstrap';
 import Img from 'react-image';
+import TextTruncate from 'react-text-truncate';
 
 export default class MovieCard extends React.Component {
     render() {
@@ -17,7 +18,14 @@ export default class MovieCard extends React.Component {
                 ]} />
                 
                     <CardBody className="pt-2">
-                    <CardTitle>{movie.name}</CardTitle>
+
+                    <CardTitle>
+                        <TextTruncate
+                            line={1}
+                            truncateText="…"
+                            text={movie.name}
+                        />
+                    </CardTitle>
                 </CardBody>
             </Card>
         )
