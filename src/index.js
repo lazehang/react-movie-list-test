@@ -5,6 +5,7 @@ import App from './App';
 import{ BrowserRouter as Router } from 'react-router-dom';
 import registerServiceWorker from './registerServiceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'tailwindcss/dist/tailwind.min.css'
 
 ReactDOM.render(
     <Router>

@@ -7,14 +7,6 @@ import {
 import Img from 'react-image';
 
 export default class MovieCard extends React.Component {
-    shorten(str, separator = ' ') {
-        if (str.length <= 12){
-            return str;
-        } else {
-        return str.substr(0, str.lastIndexOf(separator, 12)) + '...';
-        }
-    }
-
     render() {
         const movie = this.props.movieProp;
         return (
@@ -25,7 +17,7 @@ export default class MovieCard extends React.Component {
                 ]} />
                 
                     <CardBody className="pt-2">
-                    <CardTitle>{this.shorten(movie.name)}</CardTitle>
+                    <CardTitle>{movie.name}</CardTitle>
                 </CardBody>
             </Card>
         )

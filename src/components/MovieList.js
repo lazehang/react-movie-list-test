@@ -80,24 +80,34 @@ class PureMovieList extends React.Component{
     }
     
     render() {
-        const movies = this.props.movies;
-
+        let movies = this.props.movies;
+        if (this.props.isSearching) {
+            if (this.props.searchResults.length > 0) {
+                movies = this.props.searchResults;
+                console.log(movies.length)
+            }else{
+                movies = [];   
+            }
+        }
         return (
             <div className="container pt-5 mt-4">
                 <Row>
-                    <CardColumns>
-                        {
-                            movies.map((movie, i) => (
-                                <MovieCard key={i} movieProp={movie}/>
-                            ))
-                        }
-                        { /* Start load more content when this div is visible*/
-                            (this.state.currentCount !== this.state.total)?
-                            <div id="content-end" >
-                                Loading...
-                            </div>: null
-                        }
-                    </CardColumns>
+                    {
+                        (movies.length === 0) ? (<h3 className="text-center text-white mx-auto">noresults</h3>) :
+                        <CardColumns>
+                            { 
+                                movies.map((movie, i) => (
+                                    <MovieCard key={i} movieProp={movie}/>
+                                ))
+                            }
+                            { /* Start load more content when this div is visible*/
+                                (this.state.currentCount !== this.state.total)?
+                                <div id="content-end" >
+                                    Loading...
+                                </div>: null
+                            }
+                        </CardColumns>
+                    }
                 </Row>
             </div>
         )
@@ -108,7 +118,9 @@ const MovieList = connect((rootState) => ({
     movies: rootState.movie.movies,
     total: rootState.movie.total,
     isLoading: rootState.movie.isLoading,
-    page: rootState.movie.page
+    page: rootState.movie.page,
+    searchResults: rootState.movie.search,
+    isSearching: rootState.movie.isSearching
 }), (dispatch) => ({
     loadMovies: (count, page) => {dispatch(fetchMovies(count, page))},
     resetStatus: () => {dispatch(resetStatus())}

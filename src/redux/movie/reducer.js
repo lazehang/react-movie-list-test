@@ -1,9 +1,11 @@
-import { ADD_MOVIE, RESET_STATUS } from "./actions";
+import { ADD_MOVIE, RESET_STATUS, ADD_SEARCHLIST, RESET_SEARCH } from "./actions";
 
 const initialState = {
     movies: [],
     total: 0,
-    isLoading: true
+    isLoading: true,
+    search: [],
+    isSearching: false
 };
 
 export function movieReducer(state = initialState, action) {
@@ -22,6 +24,21 @@ export function movieReducer(state = initialState, action) {
             {
                 return Object.assign({}, state, {
                     isLoading: true
+                });
+            }
+        case ADD_SEARCHLIST:
+            {
+                const movies = action.movies;
+                return Object.assign({}, state, {
+                    search: movies,
+                    isSearching: true
+                });
+            }
+        case RESET_SEARCH:
+            {
+                return Object.assign({}, state, {
+                    search: [],
+                    isSearching: false
                 });
             }
         default:
