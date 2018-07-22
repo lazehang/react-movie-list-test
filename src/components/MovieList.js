@@ -90,11 +90,14 @@ class PureMovieList extends React.Component{
             }
         }
         return (
-            <div className="container pt-5 mt-4">
-                <Row>
+            <div className="container pt-5 mt-8">
+                <Row className="row">
+                { this.props.isSearching ? (<small className="mb-2 flex mx-auto">{movies.length}  results were found.</small>) : null }
+
                     {
-                        (movies.length === 0) ? (<h3 className="text-center text-white mx-auto">noresults</h3>) :
-                        <CardColumns>
+                        (movies.length === 0) ? (<h3 className="text-center text-white mx-auto">no results</h3>) :
+                        <div>
+
                             { 
                                 movies.map((movie, i) => (
                                     <MovieCard key={i} movieProp={movie}/>
@@ -106,7 +109,7 @@ class PureMovieList extends React.Component{
                                     Loading...
                                 </div>: null
                             }
-                        </CardColumns>
+                        </div>
                     }
                 </Row>
             </div>

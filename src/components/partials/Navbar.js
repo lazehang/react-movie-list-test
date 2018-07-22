@@ -65,7 +65,7 @@ class PureNavigation extends React.Component {
 
     render() {
         return (
-            <nav className="flex items-center fixed-top justify-between flex-wrap pt-3 px-2" style={navStyle}>
+            <nav className="flex items-center fixed pin-t pin-x justify-between flex-wrap pt-3 px-2" style={navStyle}>
                 <div className={'items-center flex-no-shrink text-white mr-6 ' + (this.state.navMenuDisplay === "hidden" ? "block": "hidden")}>
                     <img src="/images/Back.png" className="h-5" alt="search icon" /> 
                     <span className="font-semibold text-xl tracking-tight ml-2"> Romactic Comedy</span>
