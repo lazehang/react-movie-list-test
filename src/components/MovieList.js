@@ -2,10 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {fetchMovies, resetStatus} from '../redux/movie/actions';
 import MovieCard from './MovieCard';
-import {
-    Row,
-    CardColumns
-} from 'reactstrap';
+import { Row } from 'reactstrap';
+import ReactLoading from "react-loading";
 
 class PureMovieList extends React.Component{
     constructor(props) {
@@ -57,7 +55,7 @@ class PureMovieList extends React.Component{
 
     loadOnScroll = (e) =>{
         //If all the content loaded
-        if(this.state.currentCount === this.state.total) return;
+        if(this.state.currentCount === this.state.total || this.props.isSearchShown) return;
 
         //Get div at the bottom of the content
         var el = document.getElementById('content-end');
@@ -81,7 +79,7 @@ class PureMovieList extends React.Component{
     
     render() {
         let movies = this.props.movies;
-        if (this.props.isSearching) {
+        if (this.props.isSearching || this.props.isSearchShown) {
             if (this.props.searchResults.length > 0) {
                 movies = this.props.searchResults;
                 console.log(movies.length)
@@ -92,21 +90,20 @@ class PureMovieList extends React.Component{
         return (
             <div className="container pt-5 mt-8">
                 <Row className="row">
-                { this.props.isSearching ? (<small className="mb-2 flex mx-auto">{movies.length}  results were found.</small>) : null }
-
+                { this.props.isSearching ? (<small className="mb-2 mx-auto">{movies.length}  results were found.</small>) : null }
+                        <hr/>
                     {
-                        (movies.length === 0) ? (<h3 className="text-center text-white mx-auto">no results</h3>) :
                         <div>
 
                             { 
                                 movies.map((movie, i) => (
-                                    <MovieCard key={i} movieProp={movie}/>
+                                    <MovieCard key={i} movieProp={movie} />
                                 ))
                             }
                             { /* Start load more content when this div is visible*/
-                                (this.state.currentCount !== this.state.total)?
-                                <div id="content-end" >
-                                    Loading...
+                                (!this.props.isSearchShown && this.state.currentCount !== this.state.total)?
+                                <div id="content-end" className="h-1">
+                                    <ReactLoading type="bars" color="#fff" className="mx-auto" width="37px" />
                                 </div>: null
                             }
                         </div>
@@ -123,7 +120,8 @@ const MovieList = connect((rootState) => ({
     isLoading: rootState.movie.isLoading,
     page: rootState.movie.page,
     searchResults: rootState.movie.search,
-    isSearching: rootState.movie.isSearching
+    isSearching: rootState.movie.isSearching,
+    isSearchShown: rootState.movie.isSearchShown
 }), (dispatch) => ({
     loadMovies: (count, page) => {dispatch(fetchMovies(count, page))},
     resetStatus: () => {dispatch(resetStatus())}

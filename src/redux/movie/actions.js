@@ -2,6 +2,7 @@ export const ADD_MOVIE = 'ADD_MOVIE';
 export const RESET_STATUS = 'RESET_STATUS';
 export const ADD_SEARCHLIST = 'ADD_SEARCHLIST';
 export const RESET_SEARCH = 'RESET_SEARCH';
+export const START_SEARCH = 'START_SEARCH';
 
 export function fetchMovies(count, page) {
     return (dispatch) => {
@@ -30,6 +31,11 @@ export function addSearch(movies) {
     }
 }
 
+export function startSearching() {
+    return {
+        type: START_SEARCH
+    }
+}
 export function addMovie(movies) {
     return {
         movies,

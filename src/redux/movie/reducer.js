@@ -1,11 +1,12 @@
-import { ADD_MOVIE, RESET_STATUS, ADD_SEARCHLIST, RESET_SEARCH } from "./actions";
+import { ADD_MOVIE, RESET_STATUS, ADD_SEARCHLIST, RESET_SEARCH, START_SEARCH } from "./actions";
 
 const initialState = {
     movies: [],
     total: 0,
     isLoading: true,
     search: [],
-    isSearching: false
+    isSearching: false,
+    isSearchShown: false
 };
 
 export function movieReducer(state = initialState, action) {
@@ -38,7 +39,15 @@ export function movieReducer(state = initialState, action) {
             {
                 return Object.assign({}, state, {
                     search: [],
-                    isSearching: false
+                    isSearching: false,
+                    isSearchShown: false
+                });
+            }
+        case START_SEARCH:
+            {
+                return Object.assign({}, state, {
+                    search: [],
+                    isSearchShown: true
                 });
             }
         default:
