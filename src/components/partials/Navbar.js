@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {addSearch, resetSearch} from '../../redux/movie/actions'
+import {addSearch, resetSearch, startSearching} from '../../redux/movie/actions'
 
 const navStyle = {
     'backgroundImage': 'url(/images/nav_bar.png)',
@@ -21,13 +21,17 @@ class PureNavigation extends React.Component {
         let displayClass = "";
         if (this.state.navMenuDisplay === "hidden") {
             displayClass = "block";
+            this.props.startSearch()
+
         } else {
             displayClass = "hidden"
+            this.props.resetSearch();
         }
 
         this.setState({
             navMenuDisplay: displayClass
         })
+
         
     }
 
@@ -76,14 +80,14 @@ class PureNavigation extends React.Component {
                     <img src="/images/search.png" className="h-5" alt="search icon" />
                     </button>
                 </div>
-                <div className={` mx-auto col-xs-12 ${this.state.navMenuDisplay}`}>
+                <div className={`mx-auto col-xs-12 ${this.state.navMenuDisplay === 'block' ? 'fadeInRight' : 'hidden' }`}>
                     <form className="w-full max-w-sm">
                         <div className="flex items-center py-2">
                             <button onClick={this.cancelSearch.bind(this)}
                             className="flex-no-shrink border-transparent border-4 text-white hover:text-teal-darker text-sm py-1 px-2 rounded" type="button" >
                                 Cancel
                             </button>
-                            <input onChange={this.handleSearchChange.bind(this)} className="appearance-none bg-transparent border-none w-full text-grey-darker mr-3 py-1 px-2 leading-tight all:w-1" type="text" placeholder="Jane Doe" value={this.state.search} aria-label="Full name" />
+                            <input onChange={this.handleSearchChange.bind(this)} className="appearance-none bg-transparent border-none w-full text-grey-darker mr-3 py-1 px-2 leading-tight all:w-1" type="text" placeholder="Search" value={this.state.search} aria-label="Full name" />
                             <button onClick={this.search.bind(this)} className="flex-no-shrink bg-black hover:bg-black-dark border-black text-sm border-4 text-white py-1 px-2 rounded" type="button">
                                 Search
                             </button>
@@ -100,7 +104,8 @@ const Navigation = connect((rootState) => ({
     movies: rootState.movie.movies
 }), (dispatch) => ({
     pushToSearchResult: (results) => {dispatch(addSearch(results))},
-    resetSearch: () => {dispatch(resetSearch())}
+    resetSearch: () => {dispatch(resetSearch())},
+    startSearch: () => {dispatch(startSearching())}
 }))(PureNavigation);
 
 export default Navigation;
